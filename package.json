@@ -7,12 +7,12 @@
   "author": "backmeupplz <backmeupplz@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "run": "node dist/app.js",
     "distribute": "yarn build-ts && node dist/app.js",
     "develop": "tsc-watch --skipLibCheck --onSuccess 'node dist/app.js'",
-    "build-ts": "npm run tsc --skipLibCheck",
+    "build-ts": "tsc --skipLibCheck",
     "pretty": "prettier --check src",
-    "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx,json src",
-    "tsc": "tsc"
+    "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx,json src"
   },
   "dependencies": {
     "@grammyjs/i18n": "^0.5.0",
