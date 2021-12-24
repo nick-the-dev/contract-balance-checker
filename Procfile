@@ -1,1 +1,1 @@
-web: yarn distribute
+web: yarn run
