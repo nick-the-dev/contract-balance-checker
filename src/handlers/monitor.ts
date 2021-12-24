@@ -118,7 +118,7 @@ export default function handleMonitor(ctx: Context, message: any) {
         console.log('getting user account balance')
         const mainWalletBalance = await web3.eth.getBalance(account.address);
         console.log(web3.utils.fromWei(mainWalletBalance));
-        console.log('getting cotract balance')
+        console.log('getting contract balance')
         contractBalance = await contract.methods.getContractBalance().call();
         //console.log(web3.utils.fromWei(contractBalance));
 
