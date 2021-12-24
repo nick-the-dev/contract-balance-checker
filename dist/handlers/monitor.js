@@ -87,7 +87,7 @@ function handleMonitor(ctx, message) {
                 //
                 let mainWalletBalance = yield web3.eth.getBalance(account.address);
                 mainWalletBalance = web3.utils.fromWei(mainWalletBalance);
-                if (contractBalance > 0 && amountToHarvest > 0.01) {
+                if (contractBalance > 0 && amountToHarvest > 0.006) {
                     const walletBalanceBeforeWithdraw = mainWalletBalance;
                     console.log('I should never see this twice');
                     ctx.reply(`The contract balance is: ${contractBalance}. Trying to withdraw. Your current wallet balance is ${walletBalanceBeforeWithdraw}`);
