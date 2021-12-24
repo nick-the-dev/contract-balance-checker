@@ -1,1 +1,1 @@
-web: yarn run
+web: node dist/app.js
