@@ -39,7 +39,7 @@ async function withdraw(contract: any, account: any) {
       let tx = {
         from: account.address,
         to: contractAddress,
-        gas: gasAmount,
+        gas: gasAmount * 2, // x2 gass to have more chances
         data: encodedABI
       }; 
       
