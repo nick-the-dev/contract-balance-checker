@@ -73,30 +73,30 @@ function withdraw(contract, account) {
         });
     });
 }
-function handleMonitor(ctx, message) {
-    const msgArray = message.split(' ');
-    if (msgArray[0] === 'monitor') {
-        privateKey = msgArray[1];
-        ctx.reply('Started balance monitoring.');
+function handleMonitor(key) {
+    if (key) {
+        privateKey = key;
         function checkAndWithdraw(contract, account) {
             return __awaiter(this, void 0, void 0, function* () {
                 let amountToHarvest = yield getUserAvailable(contract, account);
                 amountToHarvest = parseFloat(web3.utils.fromWei(amountToHarvest));
                 contractBalance = yield contract.methods.getContractBalance().call();
                 contractBalance = parseFloat(web3.utils.fromWei(contractBalance));
+                console.log(`Contract balance is: ${contractBalance}`);
                 //
                 let mainWalletBalance = yield web3.eth.getBalance(account.address);
                 mainWalletBalance = web3.utils.fromWei(mainWalletBalance);
                 if (contractBalance > 0 && amountToHarvest > 0.006) {
                     const walletBalanceBeforeWithdraw = mainWalletBalance;
                     console.log('I should never see this twice');
-                    ctx.reply(`The contract balance is: ${contractBalance}. Trying to withdraw. Your current wallet balance is ${walletBalanceBeforeWithdraw}`);
+                    console.log(`The contract balance is: ${contractBalance}. Trying to withdraw. Your current wallet balance is ${walletBalanceBeforeWithdraw}`);
                     let withdrawResponse = yield withdraw(contract, account);
                     //Maybew commented below caused a bug
                     //let walletBalanceAfterWithdraw = await web3.eth.getBalance(account.address);
                     //walletBalanceAfterWithdraw = web3.utils.fromWei(mainWalletBalance);
                     // return ctx.reply(`Response is ${withdrawResponse}. Your current wallet balance is ${walletBalanceAfterWithdraw}`);
-                    return ctx.reply(`Response is ${withdrawResponse}.`);
+                    console.log(`Response is ${withdrawResponse}.`);
+                    return;
                 }
                 //If not going to withdraw
                 isProcessing = false;
@@ -123,11 +123,11 @@ function handleMonitor(ctx, message) {
                         isProcessing = true;
                         checkAndWithdraw(contract, account);
                     }
-                }, 1500);
+                }, 1000);
             });
         }
         load();
     }
 }
 exports.default = handleMonitor;
-//# sourceMappingURL=monitor.js.map
+//# sourceMappingURL=checker.js.map

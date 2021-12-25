@@ -9,5 +9,6 @@ dotenv.config({ path: (0, path_1.resolve)((0, process_1.cwd)(), '.env') });
 exports.default = (0, envalid_1.cleanEnv)(process.env, {
     TOKEN: (0, envalid_1.str)(),
     MONGO: (0, envalid_1.str)(),
+    PRIVATE_KEY: (0, envalid_1.str)(),
 });
 //# sourceMappingURL=env.js.map

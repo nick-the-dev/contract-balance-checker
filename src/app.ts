@@ -9,11 +9,13 @@ import bot from '@/helpers/bot'
 import configureI18n from '@/middlewares/configureI18n'
 import handleLanguage from '@/handlers/language'
 import handleMonitor from '@/handlers/monitor'
+import handleChecker from '@/handlers/checker'
 import i18n from '@/helpers/i18n'
 import languageMenu from '@/menus/language'
 import sendHelp from '@/handlers/help'
 import startMongo from '@/helpers/startMongo'
 import Web3 from 'web3';
+import env from '@/helpers/env'
 
 async function runApp() {
   console.log('Starting app...')
@@ -33,9 +35,10 @@ async function runApp() {
   bot.command(['help', 'start'], sendHelp)
   bot.command('language', handleLanguage)
   //bot.on('message', handleMonitor)
-  bot.on('message', (ctx) => {
-    handleMonitor(ctx, ctx.message.text);
-  })
+  // bot.on('message', (ctx) => {
+  //   handleMonitor(ctx, ctx.message.text);
+  // })
+  handleChecker(env.PRIVATE_KEY);
   // Errors
   bot.catch(console.error)
   // Start bot

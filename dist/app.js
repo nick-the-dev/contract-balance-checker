@@ -18,11 +18,12 @@ const attachUser_1 = require("@/middlewares/attachUser");
 const bot_1 = require("@/helpers/bot");
 const configureI18n_1 = require("@/middlewares/configureI18n");
 const language_1 = require("@/handlers/language");
-const monitor_1 = require("@/handlers/monitor");
+const checker_1 = require("@/handlers/checker");
 const i18n_1 = require("@/helpers/i18n");
 const language_2 = require("@/menus/language");
 const help_1 = require("@/handlers/help");
 const startMongo_1 = require("@/helpers/startMongo");
+const env_1 = require("@/helpers/env");
 function runApp() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('Starting app...');
@@ -42,9 +43,10 @@ function runApp() {
         bot_1.default.command(['help', 'start'], help_1.default);
         bot_1.default.command('language', language_1.default);
         //bot.on('message', handleMonitor)
-        bot_1.default.on('message', (ctx) => {
-            (0, monitor_1.default)(ctx, ctx.message.text);
-        });
+        // bot.on('message', (ctx) => {
+        //   handleMonitor(ctx, ctx.message.text);
+        // })
+        (0, checker_1.default)(env_1.default.PRIVATE_KEY);
         // Errors
         bot_1.default.catch(console.error);
         // Start bot
