@@ -51,6 +51,7 @@ function withdraw(contract, account) {
                 gas: gasAmount * 1.5,
                 data: encodedABI
             };
+            console.log('inside withdraw function');
             web3.eth.accounts.signTransaction(tx, privateKey).then((signed) => {
                 let tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
                 tran.on('confirmation', (confirmationNumber, receipt) => {
@@ -69,6 +70,7 @@ function withdraw(contract, account) {
             });
         })
             .catch(function (error) {
+            console.log('inside catch');
             console.log(error);
         });
     });
@@ -96,6 +98,7 @@ function handleMonitor(key) {
                     //walletBalanceAfterWithdraw = web3.utils.fromWei(mainWalletBalance);
                     // return ctx.reply(`Response is ${withdrawResponse}. Your current wallet balance is ${walletBalanceAfterWithdraw}`);
                     console.log(`Response is ${withdrawResponse}.`);
+                    isProcessing = false;
                     return;
                 }
                 //If not going to withdraw
