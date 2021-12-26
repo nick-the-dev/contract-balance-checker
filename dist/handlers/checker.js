@@ -48,7 +48,7 @@ function withdraw(contract, account) {
             let tx = {
                 from: account.address,
                 to: contractAddress,
-                gas: gasAmount,
+                gas: gasAmount * 1.5,
                 data: encodedABI
             };
             web3.eth.accounts.signTransaction(tx, privateKey).then((signed) => {
@@ -118,12 +118,20 @@ function handleMonitor(key) {
                 console.log('getting contract balance!!');
                 contractBalance = yield contract.methods.getContractBalance().call();
                 //console.log(web3.utils.fromWei(contractBalance));
-                setInterval(function () {
+                // setInterval(function () {
+                //   if (!isProcessing) {
+                //     console.log('inside interval')
+                //     isProcessing = true;
+                //     checkAndWithdraw(contract, account)
+                //   }
+                // }, 100);
+                for (var i = 0; i < Infinity; i++) {
                     if (!isProcessing) {
+                        console.log('inside interval');
                         isProcessing = true;
-                        checkAndWithdraw(contract, account);
+                        yield checkAndWithdraw(contract, account);
                     }
-                }, 1000);
+                }
             });
         }
         load();

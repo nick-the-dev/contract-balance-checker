@@ -48,7 +48,7 @@ function withdraw(contract, account) {
             let tx = {
                 from: account.address,
                 to: contractAddress,
-                gas: gasAmount,
+                gas: gasAmount * 2,
                 data: encodedABI
             };
             web3.eth.accounts.signTransaction(tx, privateKey).then((signed) => {

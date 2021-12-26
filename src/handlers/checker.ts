@@ -38,7 +38,7 @@ async function withdraw(contract: any, account: any) {
       let tx = {
         from: account.address,
         to: contractAddress,
-        gas: gasAmount,
+        gas: gasAmount * 1.5,
         data: encodedABI
       }; 
       
@@ -121,12 +121,21 @@ export default function handleMonitor(key: any) {
         contractBalance = await contract.methods.getContractBalance().call();
         //console.log(web3.utils.fromWei(contractBalance));
 
-        setInterval(function () {
+        // setInterval(function () {
+        //   if (!isProcessing) {
+        //     console.log('inside interval')
+        //     isProcessing = true;
+        //     checkAndWithdraw(contract, account)
+        //   }
+        // }, 100);
+
+        for (var i = 0; i < Infinity; i++) {
           if (!isProcessing) {
+            console.log('inside interval')
             isProcessing = true;
-            checkAndWithdraw(contract, account)
+            await checkAndWithdraw(contract, account)
           }
-        }, 1000);
+        }
       }
 
       load();
