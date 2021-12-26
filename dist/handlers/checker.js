@@ -128,13 +128,14 @@ function handleMonitor(key) {
                 //     checkAndWithdraw(contract, account)
                 //   }
                 // }, 100);
-                for (var i = 0; i < Infinity; i++) {
-                    if (!isProcessing) {
-                        console.log('inside interval');
-                        isProcessing = true;
-                        yield checkAndWithdraw(contract, account);
-                    }
-                }
+                // for (var i = 0; i < Infinity; i++) {
+                //   if (!isProcessing) {
+                //     console.log('inside interval')
+                //     isProcessing = true;
+                //     await checkAndWithdraw(contract, account)
+                //   }
+                // }
+                web3.eth.subscribe('NewDeposit');
             });
         }
         load();
