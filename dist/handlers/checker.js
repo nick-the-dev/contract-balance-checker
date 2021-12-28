@@ -19,7 +19,8 @@ let privateKey = '';
 let isProcessing = false;
 function loadWeb3() {
     return __awaiter(this, void 0, void 0, function* () {
-        web3 = yield new Web3('https://bsc-dataseed1.binance.org:443');
+        // web3 = await new Web3('https://bsc-dataseed1.binance.org:443');
+        web3 = yield new Web3('wss://speedy-nodes-nyc.moralis.io/2a78e47a86ce54da0ce3e98d/bsc/mainnet/ws');
     });
 }
 function loadContract(contractABI, contractAddress) {
@@ -48,7 +49,8 @@ function withdraw(contract, account) {
             let tx = {
                 from: account.address,
                 to: contractAddress,
-                gas: gasAmount * 1.5,
+                gas: gasAmount,
+                gasPrice: 5500000000,
                 data: encodedABI
             };
             console.log('inside withdraw function');
@@ -128,14 +130,36 @@ function handleMonitor(key) {
                 //     checkAndWithdraw(contract, account)
                 //   }
                 // }, 100);
-                // for (var i = 0; i < Infinity; i++) {
-                //   if (!isProcessing) {
-                //     console.log('inside interval')
-                //     isProcessing = true;
-                //     await checkAndWithdraw(contract, account)
-                //   }
-                // }
-                web3.eth.subscribe('NewDeposit');
+                // let options = {
+                //     address: contractAddress,
+                //     topics: [
+                //         '0x3a89eb89956dcf6537585a2372d4e629e18622cce06c2b4fee6301ae0840e241'
+                //     ],
+                //     reconnect: {
+                //         auto: true,
+                //         delay: 5000, // ms
+                //         maxAttempts: 5,
+                //         onTimeout: false
+                //     }
+                // };
+                // let subscription = web3.eth.subscribe('logs', options, function(error: any, result: any){
+                //     if (!error) console.log('got result');
+                //     else console.log(error);
+                // }).on("data", function(log: any){
+                //     console.log('got data', log);
+                //     let withdrawResponse = withdraw(contract, account);
+                //     console.log(`Response is ${withdrawResponse}.`);
+                // }).on("changed", function(log: any){
+                //     console.log('changed');
+                // });
+                // console.log(subscription);
+                for (var i = 0; i < Infinity; i++) {
+                    if (!isProcessing) {
+                        console.log('inside interval');
+                        isProcessing = true;
+                        yield checkAndWithdraw(contract, account);
+                    }
+                }
             });
         }
         load();
